@@ -26,35 +26,34 @@ import static android.R.attr.author;
  */
 
 public class QueryUtils {
-    private QueryUtils(){
+    private QueryUtils() {
     }
 
-    public static List<Book> fetchBookData(String requestUrl){
+    public static List<Book> fetchBookData(String requestUrl) {
         URL url = createUrl(requestUrl);
         String jsonResponse = null;
         try {
             jsonResponse = makeHttpRequest(url);
-        }
-        catch(IOException e){
+        } catch (IOException e) {
             Log.e("QueryUtils", "Problem making http request");
         }
         List<Book> books = extractFeatureFromJson(jsonResponse);
         return books;
     }
-    private static URL createUrl(String stringUrl){
+
+    private static URL createUrl(String stringUrl) {
         URL url = null;
-        try{
+        try {
             url = new URL(stringUrl);
-        }
-        catch(MalformedURLException e){
-            Log.e("QueryUtils","Problem building the URL",e);
+        } catch (MalformedURLException e) {
+            Log.e("QueryUtils", "Problem building the URL", e);
         }
         return url;
     }
 
-    private static String makeHttpRequest(URL url) throws IOException{
+    private static String makeHttpRequest(URL url) throws IOException {
         String jsonResponse = "";
-        if(url == null){
+        if (url == null) {
             return jsonResponse;
         }
         HttpURLConnection urlConnection = null;
@@ -72,21 +71,19 @@ public class QueryUtils {
             } else {
                 Log.e("QueryUtils", "Error at http request");
             }
-        }
-            catch(IOException e){
-            }
-            finally {
-            if(urlConnection != null)
+        } catch (IOException e) {
+        } finally {
+            if (urlConnection != null)
                 urlConnection.disconnect();
-            if(inputStream != null)
+            if (inputStream != null)
                 inputStream.close();
         }
         return jsonResponse;
     }
 
-    private static String readFromStream(InputStream inputStream) throws IOException{
+    private static String readFromStream(InputStream inputStream) throws IOException {
         StringBuilder output = new StringBuilder();
-        if(inputStream != null){
+        if (inputStream != null) {
             InputStreamReader inputStreamReader = new InputStreamReader(inputStream, Charset.forName("UTF-8"));
             BufferedReader reader = new BufferedReader(inputStreamReader);
             String line = reader.readLine();
@@ -96,35 +93,34 @@ public class QueryUtils {
             }
         }
         return output.toString();
-        }
+    }
 
-        private static List<Book> extractFeatureFromJson(String bookJSON){
-            if(TextUtils.isEmpty(bookJSON))
-                return null;
-            List<Book> books = new ArrayList<>();
-            try{
-                JSONObject baseJsonResponse = new JSONObject(bookJSON);
-                JSONArray bookArray = baseJsonResponse.getJSONArray("items");
-                for(int i = 0; i < bookArray.length() ; i++){
-                    JSONObject currentBook = bookArray.getJSONObject(i);
-                    JSONObject volumeInfo = currentBook.getJSONObject("volumeInfo");
-                    String title = volumeInfo.getString("title");
+    private static List<Book> extractFeatureFromJson(String bookJSON) {
+        if (TextUtils.isEmpty(bookJSON))
+            return null;
+        List<Book> books = new ArrayList<>();
+        try {
+            JSONObject baseJsonResponse = new JSONObject(bookJSON);
+            JSONArray bookArray = baseJsonResponse.getJSONArray("items");
+            for (int i = 0; i < bookArray.length(); i++) {
+                JSONObject currentBook = bookArray.getJSONObject(i);
+                JSONObject volumeInfo = currentBook.getJSONObject("volumeInfo");
+                String title = volumeInfo.getString("title");
 
-                    JSONArray authorsArray = volumeInfo.getJSONArray("authors");
-                    StringBuilder authors = new StringBuilder();
-                    for(int j = 0; j < authorsArray.length(); j++){
-                        authors.append(authorsArray.getString(j));
-                    }
-                    String author = authors.toString();
-                    Book book = new Book(author, title);
-                    books.add(book);
+                JSONArray authorsArray = volumeInfo.getJSONArray("authors");
+                StringBuilder authors = new StringBuilder();
+                for (int j = 0; j < authorsArray.length(); j++) {
+                    authors.append(authorsArray.getString(j));
                 }
+                String author = authors.toString();
+                Book book = new Book(author, title);
+                books.add(book);
             }
-            catch(JSONException e){
+        } catch (JSONException e) {
 
-            }
-            return books;
         }
+        return books;
+    }
 
 }
 

@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         Button removeBT = (Button) findViewById(R.id.remove);
         Button addBT = (Button) findViewById(R.id.add);
 
-        final EditText editText = (EditText)findViewById(R.id.editTextView);
+        final EditText editText = (EditText) findViewById(R.id.editTextView);
         submitBT.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -62,14 +62,15 @@ public class MainActivity extends AppCompatActivity {
         removeBT.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(numberOfResults > 0) {
+                if (numberOfResults > 0) {
                     numberOfResults--;
                     display();
                 }
             }
         });
     }
-    private void display(){
+
+    private void display() {
         TextView infoTextView = (TextView) findViewById(R.id.number_of_results);
         infoTextView.setText("" + numberOfResults);
     }

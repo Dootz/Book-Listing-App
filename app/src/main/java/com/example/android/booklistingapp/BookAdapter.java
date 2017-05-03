@@ -15,10 +15,11 @@ import java.util.List;
  * Created by 1 on 03.05.2017.
  */
 
-public class BookAdapter extends ArrayAdapter<Book>{
-    public BookAdapter(Context context, List<Book> books){
+public class BookAdapter extends ArrayAdapter<Book> {
+    public BookAdapter(Context context, List<Book> books) {
         super(context, 0, books);
     }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         // Check if there is an existing list item view (called convertView) that we can reuse,
