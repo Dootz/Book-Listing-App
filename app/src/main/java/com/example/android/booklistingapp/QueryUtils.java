@@ -109,10 +109,16 @@ public class QueryUtils {
 
                 JSONArray authorsArray = volumeInfo.getJSONArray("authors");
                 StringBuilder authors = new StringBuilder();
-                for (int j = 0; j < authorsArray.length(); j++) {
-                    authors.append(authorsArray.getString(j));
+                String author;
+                if(volumeInfo.has("authors")) {
+                    for (int j = 0; j < authorsArray.length(); j++) {
+                        authors.append(authorsArray.getString(j));
+                    }
+                    author = authors.toString();
                 }
-                String author = authors.toString();
+                else
+                    author = "Author N/A";
+
                 Book book = new Book(author, title);
                 books.add(book);
             }

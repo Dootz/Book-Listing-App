@@ -17,15 +17,7 @@ public class Book {
         return mAuthor;
     }
 
-    public void setmAuthor(String Author) {
-        this.mAuthor = Author;
-    }
-
     public String getmTitle() {
         return mTitle;
-    }
-
-    public void setmTitle(String Title) {
-        this.mTitle = Title;
     }
 }
