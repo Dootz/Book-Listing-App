@@ -105,7 +105,7 @@ public class QueryUtils {
             try{
                 JSONObject baseJsonResponse = new JSONObject(bookJSON);
                 JSONArray bookArray = baseJsonResponse.getJSONArray("items");
-                for(int i = 0; i < 10; i++){
+                for(int i = 0; i < bookArray.length() ; i++){
                     JSONObject currentBook = bookArray.getJSONObject(i);
                     JSONObject volumeInfo = currentBook.getJSONObject("volumeInfo");
                     String title = volumeInfo.getString("title");
@@ -113,7 +113,7 @@ public class QueryUtils {
                     JSONArray authorsArray = volumeInfo.getJSONArray("authors");
                     StringBuilder authors = new StringBuilder();
                     for(int j = 0; j < authorsArray.length(); j++){
-                        authors.append(authorsArray.getString(i));
+                        authors.append(authorsArray.getString(j));
                     }
                     String author = authors.toString();
                     Book book = new Book(author, title);
@@ -125,5 +125,6 @@ public class QueryUtils {
             }
             return books;
         }
-    }
+
+}
 
